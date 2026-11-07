@@ -1,14 +1,18 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class BasicMovement : MonoBehaviour
 {
     [SerializeField] [Min(0.0f)] Vector2 moveSpeed = new(5.0f, 5.0f);
     [SerializeField] SmoothedValueConfig inputSmoothConfig;
     SmoothedVector2 smoothedInput;
+    Rigidbody2D rb;
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
+
         smoothedInput = new SmoothedVector2(inputSmoothConfig)
         {
             SmoothedValue = Vector2.zero,
@@ -16,10 +20,11 @@ public class BasicMovement : MonoBehaviour
         };
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        UpdateInput(Time.deltaTime);
-        UpdateMovement(Time.deltaTime);
+        var deltaTime = Time.fixedDeltaTime;
+        UpdateInput(deltaTime);
+        UpdateMovement(deltaTime);
     }
     
 
@@ -29,7 +34,7 @@ public class BasicMovement : MonoBehaviour
     }
     void UpdateMovement(float deltaTime)
     {
-        transform.position += (Vector3)(deltaTime * Vector2.Scale(smoothedInput.SmoothedValue, moveSpeed));
+        rb.MovePosition(rb.position + deltaTime * Vector2.Scale(smoothedInput.SmoothedValue, moveSpeed));
     }
 
     public void MoveInput(InputAction.CallbackContext context)

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SFXInfo
   volumeMultiplier: 1
   pitchMultiplier: 1
-  mixerGroup: {fileID: 0}
+  mixerGroup: {fileID: 7794697242643356904, guid: 9c29eaa6331c3aa4e9afa50e8d26eb63, type: 2}

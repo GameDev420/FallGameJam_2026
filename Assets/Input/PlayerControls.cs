@@ -224,6 +224,79 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Tycoon"",
+            ""id"": ""b95016f5-069f-44c0-97c0-a28f2d6075a5"",
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""a2e4b0e2-a54a-4258-9df4-5a574a7904d3"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true,
+                    ""priority"": 0
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""cca3de6b-655c-4b66-9370-67e403ee3519"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""11835832-042a-4263-b45f-78e3d0f0038e"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""c9a162f4-579e-4870-b337-d9aad1560907"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""ef6c0fa2-b3ae-45d5-9b1b-a8801347cd93"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""a7401827-656f-4643-93ec-b8a099e4bcf2"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -250,11 +323,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Default_Aiming = m_Default.FindAction("Aiming", throwIfNotFound: true);
         m_Default_Attack = m_Default.FindAction("Attack", throwIfNotFound: true);
         m_Default_Movement = m_Default.FindAction("Movement", throwIfNotFound: true);
+        // Tycoon
+        m_Tycoon = asset.FindActionMap("Tycoon", throwIfNotFound: true);
+        m_Tycoon_Movement = m_Tycoon.FindAction("Movement", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
     {
         UnityEngine.Debug.Assert(!m_Default.enabled, "This will cause a leak and performance issues, PlayerControls.Default.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Tycoon.enabled, "This will cause a leak and performance issues, PlayerControls.Tycoon.Disable() has not been called.");
     }
 
     /// <summary>
@@ -444,6 +521,102 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="DefaultActions" /> instance referencing this action map.
     /// </summary>
     public DefaultActions @Default => new DefaultActions(this);
+
+    // Tycoon
+    private readonly InputActionMap m_Tycoon;
+    private List<ITycoonActions> m_TycoonActionsCallbackInterfaces = new List<ITycoonActions>();
+    private readonly InputAction m_Tycoon_Movement;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Tycoon".
+    /// </summary>
+    public struct TycoonActions
+    {
+        private @PlayerControls m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public TycoonActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Tycoon/Movement".
+        /// </summary>
+        public InputAction @Movement => m_Wrapper.m_Tycoon_Movement;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Tycoon; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="TycoonActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(TycoonActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="TycoonActions" />
+        public void AddCallbacks(ITycoonActions instance)
+        {
+            if (instance == null || m_Wrapper.m_TycoonActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_TycoonActionsCallbackInterfaces.Add(instance);
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="TycoonActions" />
+        private void UnregisterCallbacks(ITycoonActions instance)
+        {
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="TycoonActions.UnregisterCallbacks(ITycoonActions)" />.
+        /// </summary>
+        /// <seealso cref="TycoonActions.UnregisterCallbacks(ITycoonActions)" />
+        public void RemoveCallbacks(ITycoonActions instance)
+        {
+            if (m_Wrapper.m_TycoonActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="TycoonActions.AddCallbacks(ITycoonActions)" />
+        /// <seealso cref="TycoonActions.RemoveCallbacks(ITycoonActions)" />
+        /// <seealso cref="TycoonActions.UnregisterCallbacks(ITycoonActions)" />
+        public void SetCallbacks(ITycoonActions instance)
+        {
+            foreach (var item in m_Wrapper.m_TycoonActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_TycoonActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="TycoonActions" /> instance referencing this action map.
+    /// </summary>
+    public TycoonActions @Tycoon => new TycoonActions(this);
     private int m_MouseKeySchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -478,6 +651,21 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAttack(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Movement" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMovement(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Tycoon" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="TycoonActions.AddCallbacks(ITycoonActions)" />
+    /// <seealso cref="TycoonActions.RemoveCallbacks(ITycoonActions)" />
+    public interface ITycoonActions
+    {
         /// <summary>
         /// Method invoked when associated input action "Movement" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
