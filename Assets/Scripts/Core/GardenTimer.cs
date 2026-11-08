@@ -5,7 +5,7 @@ public class GardenTimer : MonoBehaviour
 {
     static GardenTimer instance;
 
-    [SerializeField] float timeLossOnHit = 0.3f;
+    [SerializeField] float timeLossOnHit = 0.8f;
     [Space]
     [SerializeField] int tycoonSceneIndex = 2;
     [SerializeField] private float timer = 60f;

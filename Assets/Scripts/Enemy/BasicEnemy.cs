@@ -72,21 +72,22 @@ public class BasicEnemy : EnemyBehaviour
         );
 
         Debug.Log($"Box cast performed. Hits: {hits.Length}");
-        GardenTimer.OnPlayerHit();
+        
 
-        //foreach (RaycastHit2D hit in hits)
-        //{
-        //    if (hit.collider != null)
-        //    {
-        //        Debug.Log($"Hit: {hit.collider.name}");
-        //        Health health = hit.collider.GetComponentInParent<Health>();
-        //        if (health != null)
-        //        {
-        //            health.TakeDamage(meleeDamage);
-        //            Debug.Log($"Enemy hit player for {meleeDamage} damage!");
-        //        }
-        //    }
-        //}
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.collider != null)
+            {
+                Debug.Log($"Hit: {hit.collider.name}");
+                GardenTimer.OnPlayerHit();
+                //Health health = hit.collider.GetComponentInParent<Health>();
+                //if (health != null)
+                //{
+                //    health.TakeDamage(meleeDamage);
+                //    Debug.Log($"Enemy hit player for {meleeDamage} damage!");
+                //}
+            }
+        }
     }
 
     private void OnDrawGizmosSelected()
