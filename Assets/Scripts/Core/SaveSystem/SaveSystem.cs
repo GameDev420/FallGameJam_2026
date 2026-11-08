@@ -10,6 +10,8 @@ public class SaveSystem : MonoBehaviour
         public uint ThymeCollected;
 
         public List<UpgradeData> UnlockedUpgrades;
+        public Dictionary<UpgradeData, int> UpgradeRepeatCounts;
+        public float TimerMultiplier;
 
         // Kinda just don't need a constructor to begin with soooooooooooooo
         /*public Data(uint _ThymeCollected)
@@ -36,6 +38,14 @@ public class SaveSystem : MonoBehaviour
             Instance = this;
             if (transform.parent != null) transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
+
+            data = new()
+            {
+                ThymeCollected = 0,
+                UnlockedUpgrades = new List<UpgradeData>(),
+                UpgradeRepeatCounts = new Dictionary<UpgradeData, int>(),
+                TimerMultiplier = 1.0f,
+            };
         }
     }
 
@@ -47,5 +57,12 @@ public class SaveSystem : MonoBehaviour
         
         data = Instance.data;
         return true;
+    }
+
+    public static void UpdateSaveData(SaveData newData)
+    {
+        if (Instance == null) return;
+        Instance.data = newData;
+        if (Instance.onDataChanged != null) Instance.onDataChanged.Invoke(newData);
     }
 }

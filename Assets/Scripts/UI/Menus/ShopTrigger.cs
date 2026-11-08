@@ -12,6 +12,6 @@ public class ShopTrigger : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag(playerTag)) shopMenu.Close();
+        if (collision.CompareTag(playerTag) && shopMenu != null) shopMenu.Close();
     }
 }

@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4af37f600bd7144a637d510a4b2298, type: 3}
   m_Name: AllUpgrades
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeList
-  AllUpgrades: []
+  AllUpgrades:
+  - {fileID: 11400000, guid: 29abb1dd93558b6499f127f2123af57e, type: 2}
+  - {fileID: 11400000, guid: 5de66e24323f2274b9e523f2de192a20, type: 2}
+  - {fileID: 11400000, guid: c3f75f24f38962543946ec69b2105b77, type: 2}
+  - {fileID: 11400000, guid: b2109b03332ff174a9b56bbff129e10c, type: 2}
+  - {fileID: 11400000, guid: af44aadd68452174cba9dc8b483b51ef, type: 2}
+  - {fileID: 11400000, guid: 0df56a8ca012c304cb11e741f784f9af, type: 2}

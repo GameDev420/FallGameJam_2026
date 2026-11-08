@@ -254,7 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ScrollRect
   m_Content: {fileID: 778158871249225151}
   m_Horizontal: 1
-  m_Vertical: 1
+  m_Vertical: 0
   m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
@@ -748,7 +748,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemButtonPrefab: {fileID: 1778591140314693287, guid: 0485b44b5b3aeee45bf76ead844095bf, type: 3}
-  upgradeList: {fileID: 0}
+  upgradeList: {fileID: 11400000, guid: dd6f13018518735468b1179526062509, type: 2}
   buttonParent: {fileID: 778158871249225151}
 --- !u!95 &2083767426438510954
 Animator:

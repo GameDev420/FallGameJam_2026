@@ -25,7 +25,7 @@ public class ShopMenuController : Menu
                 activeButtons.Add(button);
             }
 
-            button.Init(new(remainingUpgrades[i]));
+            button.Init(new(remainingUpgrades[i], OnPurchaseButtonClicked));
         }
 
         if (remainingUpgrades.Count < activeButtons.Count)
@@ -36,6 +36,16 @@ public class ShopMenuController : Menu
             }
             activeButtons.RemoveRange(remainingUpgrades.Count, activeButtons.Count - remainingUpgrades.Count);
         }
+    }
+
+    void OnPurchaseButtonClicked(ShopPurchaseButton button)
+    {
+        if (SaveSystem.TryGetSaveData(out var saveData))
+        {
+            saveData.UnlockedUpgrades.Add(button.Item);
+            SaveSystem.UpdateSaveData(saveData);
+        }
+        Destroy(button.gameObject);
     }
 
     // Ugly ahh mess but works for now
@@ -50,7 +60,7 @@ public class ShopMenuController : Menu
             for (int i = 0; i < saveData.UnlockedUpgrades.Count; i++)
             {
                 var index = remaining.IndexOf(saveData.UnlockedUpgrades[i]);
-                if (index != -1)
+                if (index != -1 || saveData.UnlockedUpgrades[i].Repeatable)
                 {
                     // Check if upgrade can be purchased based on prerequisites
                     var prerequisites = saveData.UnlockedUpgrades[i].Prerequisites;
