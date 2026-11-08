@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99c5e181ce4b97a4bba938b5815d531b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GardenTimer
-  timeLossOnHit: 0.3
+  timeLossOnHit: 4
   tycoonSceneIndex: 2
   timer: 13
   timerText: {fileID: 1229186148}
