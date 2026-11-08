@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
   DisplayName: Time
   UpgradeId: time
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 25a817d27eb21424d928809001962b6f, type: 3}
   Price: 11
   RequiredThyme: 4
   Prerequisites: []

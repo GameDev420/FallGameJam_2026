@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
   DisplayName: Plant Thyme
   UpgradeId: field
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 9f9373a6b366e7941ab9a9d527020830, type: 3}
   Price: 6
   RequiredThyme: 0
   Prerequisites: []
