@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SpeedUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
   DisplayName: Speed
+  UpgradeId: speed
   Icon: {fileID: 0}
   Price: 16
   RequiredThyme: 4

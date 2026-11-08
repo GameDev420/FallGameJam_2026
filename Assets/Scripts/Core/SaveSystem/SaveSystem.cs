@@ -76,8 +76,8 @@ public class SaveSystem : MonoBehaviour
 
             data = new()
             {
-                ThymeCollected = 999,
-                NumFieldUpgrades = 1,
+                ThymeCollected = 0,
+                NumFieldUpgrades = 0,
                 UnlockedUpgrades = new List<string>(),
                 UpgradeRepeatCounts = new Dictionary<string, int>(),
                 TimerMultiplier = 1.0f,

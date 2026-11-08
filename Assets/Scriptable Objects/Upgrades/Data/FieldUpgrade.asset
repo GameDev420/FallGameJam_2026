@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: FieldUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
   DisplayName: Plant Thyme
+  UpgradeId: field
   Icon: {fileID: 0}
   Price: 6
   RequiredThyme: 0

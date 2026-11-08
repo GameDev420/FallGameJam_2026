@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PickupRangeUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
   DisplayName: Pickup Range
+  UpgradeId: range
   Icon: {fileID: 0}
   Price: 7
   RequiredThyme: 2

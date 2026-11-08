@@ -54,7 +54,6 @@ public class ShopMenuController : Menu
         if (SaveSystem.TryGetSaveData(out var saveData))
         {
             // Check if we can buy the item
-            print("count: " + saveData.GetUpgradeRepeatCount(button.Item));
             if (saveData.ThymeCollected < button.GetPrice(saveData.GetUpgradeRepeatCount(button.Item)) || saveData.NumFieldUpgrades < button.GetThyme(saveData.GetUpgradeRepeatCount(button.Item))) return;
 
             saveData.ThymeCollected = (uint)Mathf.Max(0, saveData.ThymeCollected - button.GetPrice(saveData.GetUpgradeRepeatCount(button.Item)));
