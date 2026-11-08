@@ -16,12 +16,13 @@ public class ShopMenuController : Menu
     {
         base.Open();
 
-        if (SaveSystem.TryGetSaveData(out var data))
-        {
-            thymeText.text = data.ThymeCollected.ToString();
-            fieldText.text = data.NumFieldUpgrades.ToString();
-        }
+        UpdateCurrencyUI();
 
+        UpdateUpgradeButtons();
+    }
+
+    void UpdateUpgradeButtons()
+    {
         var remainingUpgrades = GetRemainingUpgrades();
         if (remainingUpgrades == null) return;
 
@@ -52,7 +53,9 @@ public class ShopMenuController : Menu
     {
         if (SaveSystem.TryGetSaveData(out var saveData))
         {
-            saveData.UnlockedUpgrades.Add(button.Item);
+            // Check if we can buy the item
+            print("count: " + saveData.GetUpgradeRepeatCount(button.Item));
+            if (saveData.ThymeCollected < button.GetPrice(saveData.GetUpgradeRepeatCount(button.Item)) || saveData.NumFieldUpgrades < button.GetThyme(saveData.GetUpgradeRepeatCount(button.Item))) return;
 
             saveData.ThymeCollected = (uint)Mathf.Max(0, saveData.ThymeCollected - button.GetPrice(saveData.GetUpgradeRepeatCount(button.Item)));
 
@@ -66,13 +69,29 @@ public class ShopMenuController : Menu
             saveData.CatAdditive += button.Item.CatAdditive;
             saveData.ThymeAdditive += button.Item.ThymeAdditive;
 
-            saveData.NumFieldUpgrades = (uint)Mathf.Max(0, saveData.NumFieldUpgrades + button.Item.NumFieldUpgrades);
+            saveData.NumFieldUpgrades += 1;
+            saveData.AddUpgrade(button.Item);
 
             SaveSystem.UpdateSaveData(saveData);
 
-            if (button.Item.ThymeAdditive > 0) PlantManager.AddFieldUpgrade();
+            // Check if it's the 'upgrade' that adds a field
+            if (button.Item.NumFieldUpgrades == 0) PlantManager.AddFieldUpgrade();
+
+            activeButtons.Remove(button);
+            Destroy(button.gameObject);
+
+            UpdateCurrencyUI();
+            UpdateUpgradeButtons();
         }
-        Destroy(button.gameObject);
+    }
+
+    void UpdateCurrencyUI()
+    {
+        if (SaveSystem.TryGetSaveData(out var data))
+        {
+            thymeText.text = data.ThymeCollected.ToString();
+            fieldText.text = data.NumFieldUpgrades.ToString();
+        }
     }
 
     // Ugly ahh mess but works for now
@@ -80,23 +99,27 @@ public class ShopMenuController : Menu
     {
         if (upgradeList == null) return null;
 
-        var remaining = new List<UpgradeData>(upgradeList.AllUpgrades);
+        var remaining = new List<string>(upgradeList.GetAllUpgradeIds());
 
         if (SaveSystem.TryGetSaveData(out var saveData) && saveData.UnlockedUpgrades != null && saveData.UnlockedUpgrades.Count > 0)
         {
             for (int i = 0; i < saveData.UnlockedUpgrades.Count; i++)
             {
+                var upgrade = upgradeList.FromId(saveData.UnlockedUpgrades[i]);
+
+                if (upgrade == null) continue;
+
                 var index = remaining.IndexOf(saveData.UnlockedUpgrades[i]);
-                if (index != -1 || saveData.UnlockedUpgrades[i].Repeatable)
+                if (index != -1 || upgrade.Repeatable)
                 {
                     // Check if upgrade can be purchased based on prerequisites
-                    var prerequisites = saveData.UnlockedUpgrades[i].Prerequisites;
+                    var prerequisites = upgrade.Prerequisites;
                     if (prerequisites != null && prerequisites.Length > 0)
                     {
                         var canPurchase = true;
                         foreach (var prerequisite in prerequisites)
                         {
-                            if (!saveData.UnlockedUpgrades.Contains(prerequisite))
+                            if (!saveData.UnlockedUpgrades.Contains(prerequisite.UpgradeId))
                             {
                                 canPurchase = false;
                                 break;
@@ -108,6 +131,6 @@ public class ShopMenuController : Menu
             }
         }
 
-        return remaining;
+        return upgradeList.FromId(remaining);
     }
 }

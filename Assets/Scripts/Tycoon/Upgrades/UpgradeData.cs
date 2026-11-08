@@ -5,6 +5,7 @@ public class UpgradeData : ScriptableObject
 {
     [Header("General")]
     public string DisplayName;
+    public string UpgradeId;
     public Sprite Icon;
     public int Price;
     public int RequiredThyme = 0;
@@ -36,7 +37,7 @@ public class UpgradeData : ScriptableObject
         {
             for (int i = 0; i < saveData.UnlockedUpgrades.Count; i++)
             {
-                if (saveData.UnlockedUpgrades[i] == this) return true;
+                if (saveData.UnlockedUpgrades[i] == UpgradeId) return true;
             }
         }
         return false;

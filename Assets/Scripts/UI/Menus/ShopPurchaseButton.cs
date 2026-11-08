@@ -43,8 +43,8 @@ public class ShopPurchaseButton : MonoBehaviour
 
         itemNameText.text = data.Item.DisplayName;
         //itemDescriptionText.text = data.Item.Description;
-        itemPriceText.text = data.Item.Price.ToString();
-        itemThymeText.text = data.Item.RequiredThyme.ToString();
+        itemPriceText.text = GetPrice().ToString();
+        itemThymeText.text = GetThyme().ToString();
         if (itemIconImage != null && data.Item.Icon != null) itemIconImage.sprite = data.Item.Icon;
     }
 
@@ -54,7 +54,7 @@ public class ShopPurchaseButton : MonoBehaviour
         if (item == null) return 0;
 
         if (item.Repeatable && purchaseCount > 0)
-            return Mathf.RoundToInt(item.Price * Mathf.Pow(item.RepeatPriceMultiplier, purchaseCount - 1));
+            return Mathf.CeilToInt(item.Price * Mathf.Max(item.RepeatPriceMultiplier * purchaseCount, 1f));
 
         return item.Price;
     }
@@ -64,8 +64,11 @@ public class ShopPurchaseButton : MonoBehaviour
         if (item == null) return 0;
 
         if (item.Repeatable && purchaseCount > 0)
-            return Mathf.RoundToInt(item.RequiredThyme * Mathf.Pow(item.RepeatThymeMultiplier, purchaseCount - 1));
+            return Mathf.CeilToInt(item.RequiredThyme * Mathf.Max(item.RepeatThymeMultiplier * purchaseCount, 1f));
 
         return item.RequiredThyme;
     }
+
+    public int GetPrice() => GetPrice(SaveSystem.Instance.Data.GetUpgradeRepeatCount(item));
+    public int GetThyme() => GetThyme(SaveSystem.Instance.Data.GetUpgradeRepeatCount(item));
 }

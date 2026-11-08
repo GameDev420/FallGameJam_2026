@@ -23,9 +23,10 @@ public class PlantManager : MonoBehaviour
             for (int i = 0; i < data.NumFieldUpgrades; i++)
             {
                 if (emptyFields.Count <= 0) break;
-                var field = emptyFields[random ? Random.Range(0, emptyFields.Count) : 0];
+                var index = random ? Random.Range(0, emptyFields.Count) : 0;
+                var field = emptyFields[index];
                 field.sprite = filledFieldSprite;
-                emptyFields.RemoveAt(0);
+                emptyFields.RemoveAt(index);
             }
         }
     }
@@ -33,9 +34,11 @@ public class PlantManager : MonoBehaviour
     public static void AddFieldUpgrade()
     {
         if (instance == null) return;
+
         if (instance.emptyFields.Count <= 0) return;
-        var field = instance.emptyFields[instance.random ? Random.Range(0, instance.emptyFields.Count) : 0];
+        var index = instance.random ? Random.Range(0, instance.emptyFields.Count) : 0;
+        var field = instance.emptyFields[index];
         field.sprite = instance.filledFieldSprite;
-        instance.emptyFields.RemoveAt(0);
+        instance.emptyFields.RemoveAt(index);
     }
 }

@@ -72,6 +72,7 @@ public class BasicEnemy : EnemyBehaviour
         );
 
         Debug.Log($"Box cast performed. Hits: {hits.Length}");
+        GardenTimer.OnPlayerHit();
 
         //foreach (RaycastHit2D hit in hits)
         //{

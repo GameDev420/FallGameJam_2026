@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
+using System;
 
 public class SaveSystem : MonoBehaviour
 {
@@ -10,8 +11,8 @@ public class SaveSystem : MonoBehaviour
         public uint ThymeCollected;
         public uint NumFieldUpgrades;
 
-        public List<UpgradeData> UnlockedUpgrades;
-        public Dictionary<UpgradeData, int> UpgradeRepeatCounts;
+        public List<string> UnlockedUpgrades;
+        public Dictionary<string, int> UpgradeRepeatCounts;
         public float TimerMultiplier;
         public float RangeMultiplier;
         public float SpeedMultiplier;
@@ -25,9 +26,26 @@ public class SaveSystem : MonoBehaviour
 
         public int GetUpgradeRepeatCount(UpgradeData upgrade)
         {
-            if (UpgradeRepeatCounts == null) return 0;
-            if (!UpgradeRepeatCounts.TryGetValue(upgrade, out var count)) return 0;
+            if (UpgradeRepeatCounts == null)
+            {
+                UpgradeRepeatCounts = new Dictionary<string, int>();
+                return 0;
+            }
+            if (!UpgradeRepeatCounts.TryGetValue(upgrade.UpgradeId, out var count)) return 0;
             return count;
+        }
+
+        public void AddUpgrade(UpgradeData upgrade)
+        {
+            if (UnlockedUpgrades == null) UnlockedUpgrades = new List<string>();
+            if (UpgradeRepeatCounts == null) UpgradeRepeatCounts = new Dictionary<string, int>();
+
+            if (!UnlockedUpgrades.Contains(upgrade.UpgradeId))
+            {
+                UnlockedUpgrades.Add(upgrade.UpgradeId);
+                UpgradeRepeatCounts.Add(upgrade.UpgradeId, 1);
+            }
+            else if (UpgradeRepeatCounts.TryGetValue(upgrade.UpgradeId, out var count)) UpgradeRepeatCounts[upgrade.UpgradeId] = count + 1;
         }
 
         // Kinda just don't need a constructor to begin with soooooooooooooo
@@ -38,7 +56,7 @@ public class SaveSystem : MonoBehaviour
     }
 
     public static SaveSystem Instance;
-
+    
     [Header("Data")]
     [SerializeField] SaveData data;
     public SaveData Data => data;
@@ -58,9 +76,10 @@ public class SaveSystem : MonoBehaviour
 
             data = new()
             {
-                ThymeCollected = 0,
-                UnlockedUpgrades = new List<UpgradeData>(),
-                UpgradeRepeatCounts = new Dictionary<UpgradeData, int>(),
+                ThymeCollected = 999,
+                NumFieldUpgrades = 1,
+                UnlockedUpgrades = new List<string>(),
+                UpgradeRepeatCounts = new Dictionary<string, int>(),
                 TimerMultiplier = 1.0f,
                 RangeMultiplier = 1.0f,
                 SpeedMultiplier = 1.0f,
