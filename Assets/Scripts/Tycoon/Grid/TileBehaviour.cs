@@ -1,5 +1,6 @@
 using UnityEngine;
 using static GridSystem;
+using System.Collections.Generic;
 
 public class TileBehaviour : MonoBehaviour
 {
@@ -14,18 +15,18 @@ public class TileBehaviour : MonoBehaviour
         public Tile Data;
         public Vector2 Scale;
     }
-
-    const int InitOverlayPoolSize = 50;
-    static ObjectPool<TileOverlayBehaviour> overlayPool;
+    
+    public static ObjectPool<TileOverlayBehaviour> OverlayPool;
 
     protected Tile data;
 
-    [Header("Config")]
+    //[Header("Config")]
     [Header("References")]
     [SerializeField] SpriteRenderer m_Renderer;
     [SerializeField] TileOverlayBehaviour overlayPrefab;
-    Transform overlayParent;
     bool subscribed = false; // handles subscription to OnOverlaysUpdated callback to avoid memory leaks
+    readonly List<TileOverlayBehaviour> localOverlays = new();
+    Transform overlayParent;
 
     public void Init(TileBehaviourInitData initData)
     {
@@ -36,13 +37,13 @@ public class TileBehaviour : MonoBehaviour
         if (m_Renderer == null) m_Renderer = GetComponentInChildren<SpriteRenderer>();
         InitSpriteRenderer(m_Renderer, initData);
 
-        // Setup overlay parent
-        if (overlayParent != null) Destroy(overlayParent.gameObject);
-        overlayParent = new GameObject("Tile Overlay Parent").transform;
-        overlayParent.SetParent(transform);
-
         // Create overlay pool (if needed)
-        if (overlayPool == null) overlayPool = new(overlayPrefab, InitOverlayPoolSize);
+        if (OverlayPool == null) OverlayPool = new(overlayPrefab, 0);
+        if (overlayParent == null)
+        {
+            overlayParent = new GameObject("Overlay Parent").transform;
+            overlayParent.SetParent(transform);
+        }
 
         OnOverlaysUpdated();
 
@@ -70,19 +71,25 @@ public class TileBehaviour : MonoBehaviour
     // Also called when initializing a new Tile data.
     void OnOverlaysUpdated()
     {
-        int overlayIndex = 0;
-
-        var spawnedOverlays = overlayParent.GetComponentsInChildren<TileOverlayBehaviour>();
-
+        var overlayIndex = 0;
+        
         // Handle all currently active objects
-        for (int i = 0; i < spawnedOverlays.Length; i++)
+        for (int i = 0; i < localOverlays.Count; i++)
         {
-            var obj = spawnedOverlays[i];
+            var obj = localOverlays[i];
 
             // Either re-initialize the object if there's an overlay for it...
-            if (overlayIndex < data.Overlays.Count) obj.Init(new(data.Overlays[overlayIndex], m_Renderer.size));
+            if (overlayIndex < data.Overlays.Count)
+            {
+                InitalizeOverlay(obj, data.Overlays[overlayIndex]);
+                obj.Init(new(data.Overlays[overlayIndex], m_Renderer.size));
+            }
             // Or return it to the pool if it's not being used.
-            else overlayPool.ReturnObject(obj);
+            else
+            {
+                localOverlays.RemoveAt(i);
+                OverlayPool.ReturnObject(obj);
+            }
 
             overlayIndex++;
         }
@@ -90,8 +97,15 @@ public class TileBehaviour : MonoBehaviour
         // Handle any additional overlays that need to be created
         while (overlayIndex < data.Overlays.Count)
         {
-            overlayPool.GetObject().Init(new(data.Overlays[overlayIndex], m_Renderer.size));
+            InitalizeOverlay(OverlayPool.GetObject(), data.Overlays[overlayIndex]);
             overlayIndex++;
         }
+    }
+
+    void InitalizeOverlay(TileOverlayBehaviour obj, TileOverlay Data)
+    {
+        obj.transform.SetParent(overlayParent);
+        obj.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
+        obj.Init(new(Data, m_Renderer.size));
     }
 }

@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 914c26459bce4584381698afbeb96bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileBehaviour
-  initOverlapPoolSize: 0
   m_Renderer: {fileID: 1091735656832694469}
   overlayPrefab: {fileID: 6664702309427990929, guid: 9ef77f98b6e9498488f4f576145fb04f, type: 3}
 --- !u!1 &8419441832253247609
@@ -128,7 +127,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
