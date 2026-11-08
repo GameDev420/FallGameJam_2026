@@ -20,6 +20,7 @@ public class GardenTimer : MonoBehaviour
     private void Start()
     {
         timer *= SaveSystem.Instance.Data.TimerMultiplier;
+        timer += SaveSystem.Instance.Data.TimerAdditive;
     }
 
     private void Update()

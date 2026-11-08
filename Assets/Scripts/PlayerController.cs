@@ -32,6 +32,11 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    private void Start()
+    {
+        speed += Mathf.CeilToInt(SaveSystem.Instance.Data.SpeedAdditive);
+    }
+
     private void OnEnable()
     {
         pc.Enable();

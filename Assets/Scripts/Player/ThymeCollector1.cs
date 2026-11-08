@@ -15,7 +15,7 @@ public class ThymeCollector1 : MonoBehaviour
 
     private void Start()
     {
-        baseCollectRadius *= Mathf.Max(0.01f, SaveSystem.Instance.Data.RangeMultiplier);
+        baseCollectRadius *= Mathf.Max(1f, SaveSystem.Instance.Data.RangeMultiplier);
         baseCollectRadius += SaveSystem.Instance.Data.RangeAdditive;
     }
 
