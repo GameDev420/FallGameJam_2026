@@ -16,7 +16,7 @@ public class GardenTimer : MonoBehaviour
     private void Update()
     {
         timer -= Time.deltaTime;
-        
+
         if (timer <= 0f && !ended)
         {
             timerText.text = "0";
