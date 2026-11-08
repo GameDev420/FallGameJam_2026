@@ -254,7 +254,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08d01aec67f755144a1c68c419fb1d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoundaryController
-  edgeBoundaryPrefab: {fileID: 3620171669190622570, guid: 75cc2e555dc4b8043a5cc7855e8b9545, type: 3}
 --- !u!1 &54404827
 GameObject:
   m_ObjectHideFlags: 0
@@ -3769,6 +3768,10 @@ PrefabInstance:
     - target: {fileID: 6162426025021825080, guid: 8574cd38e6fc3a940a656b164c2b356b, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6440411472290374124, guid: 8574cd38e6fc3a940a656b164c2b356b, type: 3}
+      propertyPath: m_CellSize.x
+      value: 270.8119
       objectReference: {fileID: 0}
     - target: {fileID: 9180555180596928661, guid: 8574cd38e6fc3a940a656b164c2b356b, type: 3}
       propertyPath: m_Name
