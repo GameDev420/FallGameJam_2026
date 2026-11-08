@@ -1992,57 +1992,12 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9212955073343405153, guid: e53b74c92a139444cb39c69e2c2a1f7c, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 02c322b2c29698c4fa8234af7b738361, type: 3}
-    - target: {fileID: 9212955073343405153, guid: e53b74c92a139444cb39c69e2c2a1f7c, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9212955073343405153, guid: e53b74c92a139444cb39c69e2c2a1f7c, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9212955073343405153, guid: e53b74c92a139444cb39c69e2c2a1f7c, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8644140971390856055, guid: e53b74c92a139444cb39c69e2c2a1f7c, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4368157273185702232, guid: e53b74c92a139444cb39c69e2c2a1f7c, type: 3}
-      insertIndex: 6
-      addedObject: {fileID: 8258373025429046688}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e53b74c92a139444cb39c69e2c2a1f7c, type: 3}
---- !u!1 &8258373025429046680 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4368157273185702232, guid: e53b74c92a139444cb39c69e2c2a1f7c, type: 3}
-  m_PrefabInstance: {fileID: 8258373025429046679}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &8258373025429046688
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8258373025429046680}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 20ffb289da2bfeb43b7563a5ec8144d7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
