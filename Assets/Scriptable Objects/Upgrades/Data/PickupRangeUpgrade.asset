@@ -23,7 +23,7 @@ MonoBehaviour:
   RepeatThymeMultiplier: 1.2
   TimerAdditive: 0
   TimerMultiplier: 1
-  RangeAdditive: 0
+  RangeAdditive: 1.5
   RangeMultiplier: 1
   SpeedAdditive: 0
   SpeedMultiplier: 1

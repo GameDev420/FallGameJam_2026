@@ -21,9 +21,9 @@ MonoBehaviour:
   Repeatable: 1
   RepeatPriceMultiplier: 1.5
   RepeatThymeMultiplier: 1.2
-  TimerAdditive: 2
-  TimerMultiplier: 1.5
-  RangeAdditive: 1.5
+  TimerAdditive: 0
+  TimerMultiplier: 1
+  RangeAdditive: 0
   RangeMultiplier: 1
   SpeedAdditive: 2
   SpeedMultiplier: 1
