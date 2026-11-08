@@ -12,7 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6695f57762a623d44a750cf4c2d7584e, type: 3}
   m_Name: SpeedUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
-  DisplayName: jtykuj
-  Price: 634
-  RequiredThyme: 5
+  DisplayName: Speed
+  Icon: {fileID: 0}
+  Price: 16
+  RequiredThyme: 4
   Prerequisites: []
+  Repeatable: 1
+  RepeatPriceMultiplier: 1.5
+  RepeatThymeMultiplier: 1.2
+  TimerAdditive: 0
+  TimerMultiplier: 1
+  RangeAdditive: 0
+  RangeMultiplier: 1
+  SpeedAdditive: 0
+  SpeedMultiplier: 1
+  NumFieldUpgrades: 0
+  CatAdditive: 5
+  ThymeAdditive: 10

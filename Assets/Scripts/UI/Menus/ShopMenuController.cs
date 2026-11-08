@@ -1,8 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class ShopMenuController : Menu
 {
+    [SerializeField] TMP_Text thymeText;
+    [SerializeField] TMP_Text fieldText;
+    [Space]
     [SerializeField] ShopPurchaseButton itemButtonPrefab;
     [SerializeField] UpgradeList upgradeList;
     [SerializeField] Transform buttonParent;
@@ -11,6 +15,12 @@ public class ShopMenuController : Menu
     protected override void Open()
     {
         base.Open();
+
+        if (SaveSystem.TryGetSaveData(out var data))
+        {
+            thymeText.text = data.ThymeCollected.ToString();
+            fieldText.text = data.NumFieldUpgrades.ToString();
+        }
 
         var remainingUpgrades = GetRemainingUpgrades();
         if (remainingUpgrades == null) return;
@@ -44,6 +54,8 @@ public class ShopMenuController : Menu
         {
             saveData.UnlockedUpgrades.Add(button.Item);
 
+            saveData.ThymeCollected = (uint)Mathf.Max(0, saveData.ThymeCollected - button.GetPrice(saveData.GetUpgradeRepeatCount(button.Item)));
+
             saveData.TimerMultiplier *= button.Item.TimerMultiplier;
             saveData.RangeMultiplier *= button.Item.RangeMultiplier;
             saveData.SpeedMultiplier *= button.Item.SpeedMultiplier;
@@ -57,6 +69,8 @@ public class ShopMenuController : Menu
             saveData.NumFieldUpgrades = (uint)Mathf.Max(0, saveData.NumFieldUpgrades + button.Item.NumFieldUpgrades);
 
             SaveSystem.UpdateSaveData(saveData);
+
+            if (button.Item.ThymeAdditive > 0) PlantManager.AddFieldUpgrade();
         }
         Destroy(button.gameObject);
     }

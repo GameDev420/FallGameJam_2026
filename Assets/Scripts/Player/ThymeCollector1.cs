@@ -8,9 +8,14 @@ public class ThymeCollector1 : MonoBehaviour
     [SerializeField] TMP_Text thymeText;
     uint localThymeCollected = 0; // this run
 
+    private void Awake()
+    {
+        thymeText.text = localThymeCollected.ToString();
+    }
+
     private void Start()
     {
-        baseCollectRadius *= SaveSystem.Instance.Data.RangeMultiplier;
+        baseCollectRadius *= Mathf.Max(0.01f, SaveSystem.Instance.Data.RangeMultiplier);
         baseCollectRadius += SaveSystem.Instance.Data.RangeAdditive;
     }
 

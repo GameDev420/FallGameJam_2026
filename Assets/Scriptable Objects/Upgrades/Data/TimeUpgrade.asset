@@ -13,7 +13,19 @@ MonoBehaviour:
   m_Name: TimeUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
   DisplayName: Time
-  Price: 30
+  Icon: {fileID: 0}
+  Price: 11
+  RequiredThyme: 4
   Prerequisites: []
-  Repeatable: 0
+  Repeatable: 1
   RepeatPriceMultiplier: 1.5
+  RepeatThymeMultiplier: 1.2
+  TimerAdditive: 0
+  TimerMultiplier: 1
+  RangeAdditive: 0
+  RangeMultiplier: 1
+  SpeedAdditive: 0
+  SpeedMultiplier: 1
+  NumFieldUpgrades: 0
+  CatAdditive: 5
+  ThymeAdditive: 10

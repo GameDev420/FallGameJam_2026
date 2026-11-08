@@ -16,10 +16,10 @@ public class BoundaryController : MonoBehaviour
     {
         cam = Camera.main;
 
-        var bottomLeft = cam.ViewportToWorldPoint(new Vector3(0,0));
-        var bottomRight = cam.ViewportToWorldPoint(new Vector3(1,0));
-        var topRight = cam.ViewportToWorldPoint(new Vector3(1,1));
-        var topLeft = cam.ViewportToWorldPoint(new Vector3(0,1));
+        var bottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0));
+        var bottomRight = cam.ViewportToWorldPoint(new Vector3(1, 0));
+        var topRight = cam.ViewportToWorldPoint(new Vector3(1, 1));
+        var topLeft = cam.ViewportToWorldPoint(new Vector3(0, 1));
 
         leftBoundary = Instantiate(edgeBoundaryPrefab, transform, true);
         leftBoundary.SetPoints(new() { bottomLeft, bottomRight });
@@ -28,9 +28,9 @@ public class BoundaryController : MonoBehaviour
         rightBoundary.SetPoints(new() { bottomRight, topRight });
 
         topBoundary = Instantiate(edgeBoundaryPrefab, transform, true);
-        topBoundary.SetPoints(new(){ topRight, topLeft });
+        topBoundary.SetPoints(new() { topRight, topLeft });
 
         bottomBoundary = Instantiate(edgeBoundaryPrefab, transform, true);
-        bottomBoundary.SetPoints(new(){ topLeft, bottomLeft });
+        bottomBoundary.SetPoints(new() { topLeft, bottomLeft });
     }
 }

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6695f57762a623d44a750cf4c2d7584e, type: 3}
   m_Name: FieldUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
-  DisplayName: erdfxg
+  DisplayName: Plant Thyme
   Icon: {fileID: 0}
-  Price: 2
+  Price: 6
   RequiredThyme: 0
   Prerequisites: []
   Repeatable: 1
@@ -26,3 +26,6 @@ MonoBehaviour:
   RangeMultiplier: 1
   SpeedAdditive: 0
   SpeedMultiplier: 1
+  NumFieldUpgrades: 0
+  CatAdditive: 5
+  ThymeAdditive: 10
