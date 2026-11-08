@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 public class SaveSystem : MonoBehaviour
 {
     [System.Serializable]
-    public struct Data
+    public struct SaveData
     {
         public uint ThymeCollected;
+
+        public List<UpgradeData> UnlockedUpgrades;
 
         // Kinda just don't need a constructor to begin with soooooooooooooo
         /*public Data(uint _ThymeCollected)
@@ -18,11 +21,12 @@ public class SaveSystem : MonoBehaviour
     public static SaveSystem Instance;
 
     [Header("Data")]
-    [SerializeField] Data data;
+    [SerializeField] SaveData data;
+    public SaveData Data => data;
 
     [Header("Events")]
-    [SerializeField] UnityEvent<Data> onDataChanged;
-    public UnityEvent<Data> OnDataChanged => onDataChanged;
+    [SerializeField] UnityEvent<SaveData> onDataChanged;
+    public UnityEvent<SaveData> OnDataChanged => onDataChanged;
 
     private void Awake()
     {
@@ -33,5 +37,15 @@ public class SaveSystem : MonoBehaviour
             if (transform.parent != null) transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
         }
+    }
+
+    public static bool TryGetSaveData(out SaveData data)
+    {
+        data = default;
+
+        if (Instance == null) return false;
+        
+        data = Instance.data;
+        return true;
     }
 }
