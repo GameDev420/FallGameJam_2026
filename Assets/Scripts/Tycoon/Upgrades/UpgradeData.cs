@@ -15,6 +15,21 @@ public class UpgradeData : ScriptableObject
     [Min(0.01f)] public float RepeatPriceMultiplier = 1.5f;
     public float RepeatThymeMultiplier = 1.2f;
 
+    [Header("Gameplay Effects")] // yikes. only doing this for the sake of this jam I PROMISE.
+    public float TimerAdditive = 0.0f;
+    public float TimerMultiplier = 1.0f;
+    [Space]
+    public float RangeAdditive = 0.0f;
+    public float RangeMultiplier = 1.0f;
+    [Space]
+    public float SpeedAdditive = 0.0f;
+    public float SpeedMultiplier = 1.0f;
+    [Space]
+    public int NumFieldUpgrades = 0;
+    [Space]
+    public int CatAdditive = 10;
+    public int ThymeAdditive = 10;
+
     public bool IsUnlocked()
     {
         if (SaveSystem.TryGetSaveData(out var saveData) && saveData.UnlockedUpgrades != null && saveData.UnlockedUpgrades.Count > 0)

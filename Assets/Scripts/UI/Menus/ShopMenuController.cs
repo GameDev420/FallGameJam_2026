@@ -43,6 +43,19 @@ public class ShopMenuController : Menu
         if (SaveSystem.TryGetSaveData(out var saveData))
         {
             saveData.UnlockedUpgrades.Add(button.Item);
+
+            saveData.TimerMultiplier *= button.Item.TimerMultiplier;
+            saveData.RangeMultiplier *= button.Item.RangeMultiplier;
+            saveData.SpeedMultiplier *= button.Item.SpeedMultiplier;
+
+            saveData.TimerAdditive += button.Item.TimerAdditive;
+            saveData.RangeAdditive += button.Item.RangeAdditive;
+            saveData.SpeedAdditive += button.Item.SpeedAdditive;
+            saveData.CatAdditive += button.Item.CatAdditive;
+            saveData.ThymeAdditive += button.Item.ThymeAdditive;
+
+            saveData.NumFieldUpgrades = (uint)Mathf.Max(0, saveData.NumFieldUpgrades + button.Item.NumFieldUpgrades);
+
             SaveSystem.UpdateSaveData(saveData);
         }
         Destroy(button.gameObject);
