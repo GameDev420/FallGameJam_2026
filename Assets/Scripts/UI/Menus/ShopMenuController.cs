@@ -74,7 +74,7 @@ public class ShopMenuController : Menu
             SaveSystem.UpdateSaveData(saveData);
 
             // Check if it's the 'upgrade' that adds a field
-            if (button.Item.NumFieldUpgrades == 0) PlantManager.AddFieldUpgrade();
+            if (button.Item.RepeatThymeMultiplier <= 0) PlantManager.AddFieldUpgrade();
 
             activeButtons.Remove(button);
             Destroy(button.gameObject);
