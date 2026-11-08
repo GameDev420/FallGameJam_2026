@@ -64,7 +64,7 @@ public class ShopPurchaseButton : MonoBehaviour
         if (item == null) return 0;
 
         if (item.Repeatable && purchaseCount > 0)
-            return Mathf.CeilToInt(item.RequiredThyme * Mathf.Max(item.RepeatThymeMultiplier * purchaseCount, 1f));
+            return Mathf.FloorToInt(item.RequiredThyme * Mathf.Max(item.RepeatThymeMultiplier * purchaseCount, 1f));
 
         return item.RequiredThyme;
     }
